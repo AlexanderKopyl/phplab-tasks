@@ -12,6 +12,27 @@
  */
 function getMinuteQuarter(int $minute)
 {
+    $units = ceil($minute / 15) ;
+    $answer =  '';
+    switch ($units){
+        case 1:
+            $answer =  'first';
+            break;
+        case 2:
+            $answer =  'second';
+            break;
+        case 3:
+            $answer =  'third';
+            break;
+        case 4:
+        case 0:
+            $answer =  'fourth';
+            break;
+        default:
+            throw new InvalidArgumentException('Wrong time: '.$minute);
+    }
+
+    return $answer;
 }
 
 /**
@@ -27,6 +48,15 @@ function getMinuteQuarter(int $minute)
  */
 function isLeapYear(int $year)
 {
+
+    if ($year < 1900) {
+        throw new InvalidArgumentException('Not Correct year' . $year);
+    }
+    if( $year % 4 == 0 ){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 /**
@@ -42,4 +72,29 @@ function isLeapYear(int $year)
  */
 function isSumEqual(string $input)
 {
+    $length = strlen($input);
+
+    if($length > 6){
+        throw new InvalidArgumentException('Not correct string' . $input);
+    }
+
+    $first_part = substr($input, 0, 3);
+    $second_part = substr($input, 3, 3);
+
+    $sum_first = [];
+    $sum_second = [];
+
+    for ($i = 1; $i <= strlen($first_part); $i++){
+        $sum_first [] = substr($first_part, $i, 1);
+    }
+    for ($i = 1; $i <= strlen($second_part); $i++){
+        $sum_second [] = substr($second_part, $i, 1);
+    }
+
+    if(array_sum($sum_first) == array_sum($sum_second)){
+        return true;
+    }else{
+        return false;
+    }
+
 }
