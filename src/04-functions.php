@@ -36,7 +36,10 @@ function sayHelloArgument($arg)
 function sayHelloArgumentWrapper($arg)
 {
     // put your code here
-
+    //Scalar variables are those containing an int, float, string or bool. Types array, object and resource are not scalar.
+    if(!is_scalar($arg)){
+        throw new InvalidArgumentException('Not right type' . $arg);
+    }
     return sayHelloArgument($arg);
 }
 
@@ -70,4 +73,16 @@ function countArguments()
 function countArgumentsWrapper()
 {
     // put your code here
+    $argv = func_get_args();
+    if(func_num_args()){
+        foreach ($argv as $arg){
+            if(!is_string($arg)){
+                print_r($arg);
+                throw new InvalidArgumentException('Not correct data');
+            }
+        }
+
+    }
+
+    return countArguments(...$argv);
 }
