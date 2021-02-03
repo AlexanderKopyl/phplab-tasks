@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -14,21 +15,38 @@ class CountArgumentsTest extends TestCase
         $this->assertEquals($expected, countArguments($input));
     }
 
+    public function testEmpty()
+    {
+        $this->assertEquals(
+            [
+                'argument_count' => 0,
+                'argument_values' => [],
+            ],
+            countArguments()
+        );
+    }
+
+    public function testTwoParameters()
+    {
+        $this->assertEquals(
+            [
+                'argument_count' => 2,
+                'argument_values' => ["Hello World!", "Some Text"],
+            ],
+            countArguments("Hello World!", "Some Text")
+        );
+    }
+
     public function positiveDataProvider()
     {
         return [
-            [[
-                'argument_count'  => 0,
-                'argument_values' => [],
-            ]],
-            ['Hello World!',[
-                'argument_count'  => 1,
-                'argument_values' => ['Hello World!'],
-            ]],
-            ["Hello World!", "Some Text",[
-                'argument_count'  => 2,
-                'argument_values' => ["Hello World!", "Some Text"],
-            ]]
+            [
+                'Hello World!',
+                [
+                    'argument_count' => 1,
+                    'argument_values' => ['Hello World!'],
+                ]
+            ]
         ];
     }
 

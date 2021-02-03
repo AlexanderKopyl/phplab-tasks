@@ -51,6 +51,8 @@ function sayHelloArgumentWrapper($arg)
  */
 function countArguments()
 {
+    $test_num = func_num_args();
+    $test_args = func_get_args();
     return [
         'argument_count'  => func_num_args(),
         'argument_values' => func_get_args(),
