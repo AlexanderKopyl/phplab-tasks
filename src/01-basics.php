@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The $minute variable contains a number from 0 to 59 (i.e. 10 or 25 or 60 etc).
  * Determine in which quarter of an hour the number falls.
@@ -12,21 +13,20 @@
  */
 function getMinuteQuarter(int $minute)
 {
-    $units = ceil($minute / 15) ;
-    $answer =  '';
-    switch ($units){
+    $units = ceil($minute / 15);
+    switch ($units) {
         case 1:
-            $answer =  'first';
+            $answer = 'first';
             break;
         case 2:
-            $answer =  'second';
+            $answer = 'second';
             break;
         case 3:
-            $answer =  'third';
+            $answer = 'third';
             break;
         case 4:
         case 0:
-            $answer =  'fourth';
+            $answer = 'fourth';
             break;
         default:
             throw new InvalidArgumentException('Wrong time: '.$minute);
@@ -48,15 +48,10 @@ function getMinuteQuarter(int $minute)
  */
 function isLeapYear(int $year)
 {
-
     if ($year < 1900) {
-        throw new InvalidArgumentException('Not Correct year' . $year);
+        throw new InvalidArgumentException('Not Correct year'.$year);
     }
-    if( $year % 4 == 0 ){
-        return true;
-    }else{
-        return false;
-    }
+    return $year % 4 == 0;
 }
 
 /**
@@ -74,8 +69,8 @@ function isSumEqual(string $input)
 {
     $length = strlen($input);
 
-    if($length > 6){
-        throw new InvalidArgumentException('Not correct string' . $input);
+    if ($length !== 6) {
+        throw new InvalidArgumentException('Not correct string'.$input);
     }
 
     $first_part = substr($input, 0, 3);
@@ -84,17 +79,16 @@ function isSumEqual(string $input)
     $sum_first = [];
     $sum_second = [];
 
-    for ($i = 1; $i <= strlen($first_part); $i++){
+    for ($i = 0; $i < strlen($first_part); $i++) {
         $sum_first [] = substr($first_part, $i, 1);
     }
-    for ($i = 1; $i <= strlen($second_part); $i++){
+    for ($i = 0; $i < strlen($second_part); $i++) {
         $sum_second [] = substr($second_part, $i, 1);
     }
 
-    if(array_sum($sum_first) == array_sum($sum_second)){
+    if (array_sum($sum_first) == array_sum($sum_second)) {
         return true;
-    }else{
+    } else {
         return false;
     }
-
 }
