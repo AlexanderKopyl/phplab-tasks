@@ -86,9 +86,5 @@ function isSumEqual(string $input)
         $sum_second [] = substr($second_part, $i, 1);
     }
 
-    if (array_sum($sum_first) == array_sum($sum_second)) {
-        return true;
-    } else {
-        return false;
-    }
+    return array_sum($sum_first) == array_sum($sum_second);
 }
