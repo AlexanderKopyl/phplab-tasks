@@ -93,3 +93,71 @@ SELECT * FROM `user` LIMIT 0, 2;
 SELECT COUNT(*) FROM `user`;
 SELECT COUNT(*) FROM `user` WHERE `status` = 1;
 SELECT * FROM `user` ORDER BY user_id DESC;
+
+
+-- Запросы которые я делал на своём проекте
+ALTER TABLE `users` AUTO_INCREMENT = 1
+SELECT count(*) FROM `oc_order` WHERE date_added BETWEEN '2018-12-26 00:00:00' AND '2018-12-26 10:27:47' запросы между датами
+TRUNCATE TABLE developers_copy; Очистка таблицы
+SELECT
+    `seo_url_id`, `query`, COUNT(`query`)
+FROM
+    `oc_seo_url`
+GROUP BY
+    `seo_url_id`, `query`
+HAVING
+        COUNT(`query`) > 1// Возвращение больше одного значения
+
+DELETE FROM `oc_product_description` WHERE `product_id` IN (SELECT `product_id` FROM `oc_product` WHERE `model` LIKE "%sk%")
+
+SELECT`language_id`,`keyword`,COUNT(`keyword`)FROM`oc_customer_search`GROUPBY`language_id`,`keyword`ORDERBYCOUNT(`keyword`)DESC - возвращает самые запрашиваемые запросы покупателей
+
+sed 's/ENGINE=MyISAM/ENGINE=InnoDB/g' new_zoo.14.08.2019.sql > new_zoo.14.08.2019_INNODB.sql - конвертация Бд в InnoDb
+
+SELECT oc_product_to_category.product_id, oc_product_description.name, oc_product_to_category.category_id, oc_category_description.name, COUNT( DISTINCT oc_product_to_category.category_id )
+FROM oc_product_to_category
+         JOIN oc_category_description ON oc_category_description.category_id = oc_product_to_category.category_id
+         JOIN oc_product_description ON oc_product_description.product_id = oc_product_to_category.product_id
+GROUP BY`product_id`
+HAVING COUNT( DISTINCT oc_product_to_category.category_id ) =1
+ORDER BY`oc_category_description`.`name` ASC
+
+    mysqldump -uc0_alex -pPv7ko@UvHF b0zoo > b0zoo23.09.sql ssh beckup
+mysql -uc0_alex -pPv7ko@UvHF b0s < newb0.sql
+
+UPDATE `oc_mfilter_url_alias` SET `alias` = CONCAT("ua-", `alias`) WHERE `language_id` = 2
+
+    $sql = 'SELECT table1.`order_id`,table2.product_id,table2.name,table2.model,table2.quantity,table2.price,table2.total FROM `oc_order` as table1 LEFT JOIN `oc_order_product` as table2 ON table1.`order_id` = table2.`order_id` WHERE `email` = "sales@petz.com.ua"';
+
+SELECT * FROM oc_product p WHERE p.product_id NOT IN (SELECT pd.product_id FROM oc_product_description pd)
+
+                                     //Выбрать заказы без купонов
+SELECTCOUNT(*)FROMoc_orderocoWHEREoco.order_idNOTIN(SELECTocot.order_idFROMoc_order_totalocotWHEREocot.`code`='coupon')ANDoco.order_status_id!=0
+//Выбрать заказы с купоном
+SELECT COUNT(*) FROM oc_order oco WHERE oco.order_id IN (SELECT ocot.order_id FROM oc_order_total ocot WHERE ocot.`code` = 'coupon') AND oco.order_status_id != 0
+
+UPDATE `oc_product_attribute` SET `attribute_id`= 452 WHERE `attribute_id` = 516
+UPDATE `oc_product_attribute` SET `attribute_id`= 33 WHERE `attribute_id` = 22 OR `attribute_id` = 1
+
+SELECT c.customer_id,c.firstname,c.lastname,c.telephone,c.email,c.customer_group_id,c.status,cgd.name FROM `oc_customer` AS c INNER JOIN `oc_customer_group_description` AS cgd ON c.customer_group_id= cgd.customer_group_id GROUP BY c.email ORDER BY c.customer_id ASC
+
+
+DELETE FROM `ttn_info` WHERENOW()> `date_delete`
+
+UPDATE `oc_product_attribute` SET `text`="Універсальний" WHERE `attribute_id` = 489 AND `language_id` = 2 AND `text` = "Универсальный"
+
+
+
+SELECT c.customer_id,c.firstname,c.lastname,c.telephone,c.email,c.customer_group_id,c.status,cgd.name,c_order.order_id,c_order.order_status_id FROM `oc_customer` AS c INNER JOIN `oc_customer_group_description`
+    AS cgd ON c.customer_group_id= cgd.customer_group_id INNER JOIN `oc_order` AS c_order ON c.email = c_order.email GROUP BY c_order.order_idid INNER JOIN `oc_order` AS c_order ON c.email = c_order.email GROUP BY c_order.order_id
+ORDER BY `c`.`firstname` ASC
+
+SELECT * FROM `oc_attribute`
+                  INNER JOIN `oc_attribute_group_description` ON `oc_attribute`.`attribute_group_id` = `oc_attribute_group_description`.`attribute_group_id`
+                  INNER JOIN `oc_attribute_description` ON `oc_attribute`.`attribute_id` = `oc_attribute_description`.`attribute_id` GROUP BY `oc_attribute`.`attribute_id` ORDER BY `oc_attribute_description`.`name` ASC
+
+    Запрос возвращает все заказы и товары которые делал покупатель
+SELECTocc.`customer_id`,occ.`email`,occ.`telephone`,oco.order_id,ocop.*,ocptc.*,occd.name,occgd.nameasgroup_nameFROM`oc_customer`asoccINNERJOIN`oc_order`asocoONoco.`customer_id`=occ.`customer_id`INNERJOIN`oc_order_product`asocopONocop.order_id=oco.order_idINNERJOIN`oc_product_to_category`asocptcONocop.product_id=ocptc.product_idINNERJOIN`oc_category_description`asoccdONoccd.category_id=ocptc.category_idINNERJOIN`oc_customer_group_description`asoccgdONoccgd.customer_group_id=occ.customer_group_idWHEREoco.order_status_id>0GROUPBYocptc.category_id
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     //Заказы за период определенного клиента
+SELECT COUNT(*) FROM `oc_order` WHERE `date_added` BETWEEN "2020-01-01" AND "2020-01-31" AND `order_status_id` !=0 AND `email` = "sales@petz.com.ua"
